@@ -2,10 +2,8 @@ $(document).ready(function() {
   currentWeatherListener();
   descriptionLinkListener();
   hideTrailDescListener();
-  // listingsTableListeners();
-  // sellItemButtonListener();
-  // submitItemButtonListener();
-  // deleteListingButtonListener();
+  showLandmarksLinkListener();
+  hideLandmarksListener();
 });
 
 
@@ -58,6 +56,38 @@ var showTrailDescription = function(event){
     $('#trail-desc-div').hide();
 }
 
+  var showLandmarksLinkListener = function(){
+    $('.trails-show').on('click', '#trail-landmarks-link', showLandmarks)
+  }
 
+  var showLandmarks = function(event){
+    event.preventDefault();
+
+    var attrlink = $(this).attr('href')
+
+    var request = $.ajax({
+      url: attrlink,
+      method:'get'
+    });
+
+    request.done(function(response){
+      $('#trail-landmarks').append(response);
+      console.log("success")
+    });
+
+    request.fail(function(response){
+      console.log("unsuccessful")
+    });
+  }
+
+  var hideLandmarksListener = function(){
+    $('#trail-landmarks').on('click','#hide-landmarks', hideLandmarks)
+ }
+
+ var hideLandmarks = function(event){
+    event.preventDefault();
+
+    $('#trail-landmarks-div').hide();
+}
 
 

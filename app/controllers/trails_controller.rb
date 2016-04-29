@@ -12,13 +12,15 @@ get '/trails/:id' do
   end
 end
 
-get 'trails/:id/landmarks' do
+get '/trails/:id/landmarks' do
+  @landmarks = Landmark.where(trail_id: params[:id])
   if request.xhr?
-    erb :'/'
+    erb :'/landmarks/_index', layout: false, locals:{landmarks: @landmarks}
   end
 end
 
 get 'trails/:trail_id/landmarks/:id' do
+  @landmark = Landmark.find(params[:id])
 
 end
 
