@@ -1,94 +1,61 @@
 $(document).ready(function() {
-
-  listingsTableListeners();
-  sellItemButtonListener();
-  submitItemButtonListener();
-  deleteListingButtonListener();
+  currentWeatherListener();
+  descriptionLinkListener();
+  hideTrailDescListener();
+  // listingsTableListeners();
+  // sellItemButtonListener();
+  // submitItemButtonListener();
+  // deleteListingButtonListener();
 });
 
-var listingsTableListeners = function(){
-  $('.star').on('click', function () {
-      $(this).toggleClass('star-checked');
-    });
 
-    $('.ckbox label').on('click', function () {
-      $(this).parents('tr').toggleClass('selected');
-    });
+var currentWeatherListener = function(){
+  $('#navbar').on('click', '#current-weather', currentWeather)
 
-    $('.btn-filter').on('click', function () {
-      var $target = $(this).data('target');
-      if ($target != 'all') {
-        $('.table tr').css('display', 'none');
-        $('.table tr[data-status="' + $target + '"]').fadeIn('slow');
-      } else {
-        $('.table tr').css('display', 'none').fadeIn('slow');
-      }
-    });
+}
 
- };
+var currentWeather = function(event){
+  event.preventDefault();
 
-
-  var sellItemButtonListener = function(){
-    $(".new_listing_button").on('click', function(event){
-      event.preventDefault();
-
-    var request = $.ajax({
-      url: "/listings/new",
-      method: 'get'
-    })
-
-    request.done(function(response){
-
-      $(".form-area").append(response);
-      $(".new_listing_button").hide();
-
-    });
-
-    request.fail(function(response){
-      console.log("Listing not valid, please try again")
-    });
-
-    });
-  };
-
-  var submitItemButtonListener = function(){
-    $(".form-area").on('submit', '#listing-form', createListing)
+  $.ajax({
+  url : "http://api.wunderground.com/api/db8f12a8be0e1eb5/geolookup/conditions/q/CA/San_Francisco.json",
+  dataType : "jsonp",
+  success : function(parsed_json) {
+  var location = parsed_json['location']['city'];
+  var temp_f = parsed_json['current_observation']['temp_f'];
+  alert("Current temperature in " + location + " is: " + temp_f + "F");
   }
+  });
 
-  var createListing = function(event){
+}
+
+var descriptionLinkListener = function(){
+  $('.trails-show').on('click', '#trail-description-link', showTrailDescription)
+}
+
+var showTrailDescription = function(event){
+  event.preventDefault();
+
+  var desclink = $(this).attr('href')
+
+  var request = $.ajax({
+    url: desclink,
+    method:'get'
+  });
+
+  request.done(function(response){
+    $('#trail-description').append(response);
+  });
+}
+
+ var hideTrailDescListener = function(){
+    $('#trail-description').on('click','#hide-trail-desc', hideTrailDesc)
+ }
+
+ var hideTrailDesc = function(event){
     event.preventDefault();
 
-    var input = $(this).serialize();
-    var route_url = $(this).attr('action');
-    var form_method = $(this).attr('method');
-
-    var request = $.ajax({
-      url: route_url,
-      method: form_method,
-      data: input
-    });
-
-    request.done(function(response){
-      $(".list-group").append(response);
-      $(".listing_div").hide();
-      console.log("new listing submit successful");
-    });
-
-    request.fail(function(response){
-      console.log("new listing submit unsuccessful")
-    });
-  }
-
-
-var deleteListingButtonListener = function(){
-  $(".delete-listing").on('click', function(event){
-      event.preventDefault();
-
-      var request = $.ajax({
-
-      })
-
-  });
+    $('#trail-desc-div').hide();
 }
 
 

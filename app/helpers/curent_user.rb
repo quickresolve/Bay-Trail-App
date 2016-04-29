@@ -1,4 +1,10 @@
 helpers do
+  def create_user(new_user)
+    new_user.save
+    login(new_user)
+    new_user_success_message
+  end
+
   def new_user_success_message
     session[:success] = "Account successfully created"
   end

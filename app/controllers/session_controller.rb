@@ -17,7 +17,8 @@ post '/sessions' do
     login(user_id)
     set_login_success_message
     puts session[:user_id]
-    redirect "/users/#{session[:user_id]}"
+    redirect '/'
+    # redirect "/users/#{session[:user_id]}"
   else
     set_error_message
     redirect '/'

@@ -1,0 +1,23 @@
+<center><h1>Bay Trails</h1></center>
+<hr>
+
+<h6>Map by Number provided by BayTrail.org</h6>
+<div class='trails-show' >
+<% @trails.each do |trail| %>
+<%img_link = trail.map_img %>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card card-block">
+      <h3 class="card-title"><a href=''><%=trail.name %></h3></a>
+      <p id="trail-info">Terrain: <%=trail.terrain %>, Difficulty: <%=trail.difficulty%>, Distance: <%=trail.distance %></p>
+      <a id='trail-description-link' href='/trails/<%=trail.id%>'>Description</a>
+      <a id='trail-landmarks-link' href='/trails/<%=trail.id%>/landmarks'>Landmarks</a>
+      <img src='<%="#{img_link}"%>' alt="Card image">
+      <a href="#" class="btn btn-primary">Bike It!</a>
+    </div>
+  </div>
+  <div id="trail-description" class="col-sm-6"></div>
+  <div id="trail-landmarks" class="col-sm-6"></div>
+</div>
+<% end %>
+</div>
