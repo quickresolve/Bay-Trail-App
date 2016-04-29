@@ -8,7 +8,7 @@ class CreateTrails < ActiveRecord::Migration
       t.integer :difficulty
       t.integer :elevation_incr
       t.integer :elevation_decr
-      t.string :img_url
+      t.string :map_img
 
       t.timestamps
     end

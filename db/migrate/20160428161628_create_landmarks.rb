@@ -5,6 +5,7 @@ class CreateLandmarks < ActiveRecord::Migration
       t.string :description
       t.string :location
       t.date :date_built
+      t.string :img_src
       t.integer :trail_id
 
       t.timestamps
